@@ -1,0 +1,24 @@
+services:
+  menus_api:
+    build:
+      context: ./menus
+    container_name: menus_api_flask
+    # command: flask run --host=0.0.0.0
+    command: tail -f /dev/null
+    volumes:
+      - ./menus:/app/menus
+    ports:
+      - "5000:5000"
+    environment:
+      # python path maybe redundant @ dockerfile, maybe won't work
+      - PYTHONPATH=/app/menus
+      FLASK_APP: wsgi.py
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@erp_posgres:5435/erp_main
+    networks:
+      - erpnet
+
+networks:
+  erpnet:
+    external: true
+
